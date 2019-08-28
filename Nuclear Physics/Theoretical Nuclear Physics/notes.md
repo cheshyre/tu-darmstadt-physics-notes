@@ -5,6 +5,7 @@ numbersections: true
 titlepage: true
 toc-own-page: true
 ---
+
 # Scope and guiding principles
 
 ## Scope
@@ -47,3 +48,121 @@ $$
 **Example: multipole expansion in electrostatics**
 
 What is the electric potential $\Phi$ of a localized charge distribution at long distances?
+
+### Uncertainty quantification
+
+# Introduction to nuclei and the strong interaction
+
+## Scales
+
+## Nuclear matter
+
+## Nuclear landscape
+
+# Nuclear forces: scattering and bound states
+
+## Basic scattering
+
+### Lippmann-Schwinger equation
+
+### Green's function
+
+### Scattering amplitude and T-matrix
+
+### Differential cross section
+
+### Born approximation
+
+### Partial wave expansion
+
+### Phase shifts
+
+### S-matrix properties
+
+### Example: scattering off a hard sphere
+
+### Effective range expansion
+
+### Scattering length properties
+
+## Nucleon-nucleon scattering
+
+### Partial-wave channels
+
+### Symmetries of nuclear forces
+
+#### Breaking of approximate symmetries
+
+#### Accidental symmetries
+
+### General operator structure of $V_{NN}$
+
+### Momentum-space properties
+
+# Effective theories at low energies
+
+## Spin- and isospin-independent contact interaction expansion
+
+## Solving the Lippmann-Schwinger equation
+
+## Lippmann-Schwinger equation for leading-order contact interaction
+
+### Observed divergences
+
+### Regularization and renormalization
+
+### T-matrix matching and artifacts
+
+### General regularization principles
+
+### Non-perturbative renormalization
+
+## Nuclear force properties from phase shifts
+
+### Spin-orbit from P-wave phase shifts
+
+### Tensor force from deuteron properties
+
+## More advanced topics in nuclear forces
+
+### Coupled-channel scattering
+
+### One-pion-exchange interaction
+
+# Many-body basics
+
+## Many-body states and symmetrization
+
+## Second quantization
+
+### Creation and annihilation operators
+
+### Basis transformations
+
+### Representation of operators
+
+### Examples of different operators
+
+## Basic many-body methods
+
+### Variational principle
+
+### Hartree-Fock equations
+
+### Fermi gas approximation
+
+### Dilute gas expansion
+
+# Many-body methods for strongly interacting systems
+
+## Many-body perturbation theory
+
+## Quantum Monte Carlo
+
+## No-core shell model
+
+## Coupled-cluster method
+
+## In-medium similarity renormalization group
+
+## Shell model method
