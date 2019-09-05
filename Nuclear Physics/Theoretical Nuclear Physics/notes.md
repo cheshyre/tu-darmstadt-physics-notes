@@ -688,23 +688,148 @@ The sum is over isospin projections of the exchanged pion.
 
 # Many-body basics
 
+When working with many-body systems, we span the $A$-body Hilbert space with product states of single-particle states (plane waves, HO states).
+Following the spin-statistics theorem, these should have appropriate symmetry.
+
 ## Many-body states and symmetrization
+
+For fermions:
+
+$$
+\ket{x_1,x_2,...,x_A}_a = \frac{1}{\sqrt{A!}}\sum_{permutations P} sign(P) \ket{x_{P(1)}}...\ket{x_{P(A)}}
+$$
+
+This is a Slater determinant, because it can be seen as the determinant of a square matrix where particle label and quantum number label are varied across the two axes.
+This notation is inconvenient.
 
 ## Second quantization
 
+We go from the Hilbert space to the Fock space which is the sum over all Hilbert spaces.
+In the 0th Hilbert space, we have the vacuum with 0 nucleons.
+
 ### Creation and annihilation operators
+
+Creation operator:
+
+$$
+a_{x}^{\dagger}\ket{0} = \ket{x}
+$$
+
+Recall other standard properties.
+
+These creation operators automatically create states with appropriate symmetry.
+
+Also have annihilation operator: $a_x$.
+This anticommutes with creation operator if $x=x'$.
 
 ### Basis transformations
 
+New single particle basis $\ket{x'}$.
+
+$$
+\ket{x'} = \sum_x \ket{x}\bra{x}\ket{x'} = \sum_x a_{x}^{\dagger} \bra{x}\ket{x'}
+$$
+
+\begin{align*}
+a_{x'}^{\dagger} &= \sum_x a_{x}^{\dagger} \bra{x}\ket{x'} \\
+a_{x'} &= \sum_x a_{x} \bra{x}\ket{x'}^*
+\end{align*}
+
 ### Representation of operators
 
+One-body operator:
+
+$$
+O = \sum_{x,x'}\mel{x}{O}{x'}a_{x}^{\dagger} a_{x'}
+$$
+
+Two-body operator (take note of ordering):
+
+$$
+O_2 = \frac{1}{(2!)^2}\sum_{x_1,x_2,x_1',x_2'} anti\mel{x_1,x_2}{O_2}{x_1',x_2'}a_{x_1}^{\dagger} a_{x_2}^{\dagger} a_{x_2'} a_{x_1'}
+$$
+
+Three-body operator:
+
+$$
+O_3 = \frac{1}{(3!)^2}\sum_{x_1,x_2,x_3,x_1',x_2',x_3'} anti\mel{x_1,x_2,x_3}{O_3}{x_1',x_2',x_3'}a_{x_1}^{\dagger} a_{x_2}^{\dagger} a_{x_3}^{\dagger} a_{x_3'} a_{x_2'} a_{x_1'}
+$$
+
+For two- and three-body operators, the matrix elements are antisymmetrized.
+
+
 ### Examples of different operators
+
+One-body:
+
+* Occupation number
+* Density operator
+* Total number operator
+* Kinetic energy
+
+Two-body:
+
+* 2-body potential
+* 2-body density
+
+Three-body:
+
+* 3-body potential
 
 ## Basic many-body methods
 
 ### Variational principle
 
+The solution of the Schroedinger equation is equivalent to finding stationary points of the energy functional
+
+$$
+E[\ket{\psi}] = \frac{\ev{H}{\psi}}{\bra{\psi}\ket{\psi}}
+$$
+
+under variation of $\ket{\psi}$ over all possible states.
+
+$$
+\delta E[\ket{\psi}] = E[\ket{\psi} + \ket{\delta \psi}] - E[\ket{\psi}] = 0
+$$
+
+for infinitesimally small variations.
+This gives:
+
+$$
+\mel{\delta \psi}{H - E}{\psi} = 0
+$$
+
+See handwritten proof.
+
+The Ritz variational principle says this functional has a global minimum at the ground state.
+The proof involves expanding a trial state in eigenstates of the Hamiltonian and looking at the energy functional.
+
 ### Hartree-Fock equations
+
+The Hartree-Fock approximation makes use of the variational principle in a restricted state space, namely the space of $A$-body Slater determinants.
+We do this by considering:
+
+1. A local 2-body potential
+2. Forcing new single particle states to be normalized via Lagrange multipliers.
+3. Employing the stationary condition:
+
+$$
+\delta E[\ket{\psi}] - \delta \left(\sum_{i=1}^A \epsilon_i \int d^3r \abs{\phi_i(\vec{r}}^2\right) = 0
+$$
+
+This gives:
+
+$$
+(-1/2m \nabla^2)\phi_i(r) + \sum_{j=1}\int d^3r' \phi_j^*(r') V(r - r') \left(\phi_i(r)\phi_j(r') - \phi_i(r')\phi_j(r)\right) = E_i \phi_i(r)
+$$
+
+which can be rewritten as:
+
+$$
+-1/2m \nabla^2 \phi_i(r) + V_H[\rho](r)\phi_i(r) - \int d^3r' V_F[\rho](r, r') \phi_i(r') = E_i \phi_i(r)
+$$
+
+This is solved self-consistently.
 
 ### Fermi gas approximation
 
