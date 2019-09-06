@@ -251,7 +251,7 @@ $$
 
 At low $k$:
 
-$delta_l(k) = - a_l k^{2l + 1}$.
+$\delta_l(k) = - a_l k^{2l + 1}$.
 
 1. Weak potential: $\sigma_0(k) = 4\pi a^2$
 2. Strong scattering at low $k$: $\sigma_0(k) = \frac{4\pi}{k^2}$
@@ -348,7 +348,7 @@ Rules for allowed transformations in momentum space:
 We want to restrict ourselves now to scattering in the low-energy regime.
 This means we have a small momentum scale, $Q=\left\{\abs{\vec{k}},\abs{\vec{k}'}\right\}$,
 which corresponds to long wavelengths in terms of what is probed during scattering.
-This means we cannot resolve short-distance details: $\lambda >> R \sim \frac{1}{\Lambda_b}$.
+This means we cannot resolve short-distance details: $\lambda \gg R \sim \frac{1}{\Lambda_b}$.
 This $\Lambda_b$ is the breakdown scale for our to-be-constructed effective theory,
 and it signals where details for short-distance physics become relevant.
 The theory we will discuss includes no meson exchange,
@@ -453,7 +453,7 @@ We also see that there is a residual effective range artifact due to our cutoff.
 Consider the following points:
 
 1. Cutoff dependence in coefficients implies many potentials give same results
-2. For small $a_s$, $\Lambda a_s << 1$ so $c_0=\frac{4\pi a_s}{m}\left(1 + \frac{2}{\pi}\Lambda a_s\right)$
+2. For small $a_s$, $\Lambda a_s \ll 1$ so $c_0=\frac{4\pi a_s}{m}\left(1 + \frac{2}{\pi}\Lambda a_s\right)$
 3. For large $a_s$, $c_0=-\frac{2\pi^2}{m\Lambda}$, a fine-tuned contact.
 4. Transforming potential to coordinate space, we remove high momentum nodes so delta function is smeared out.
 5. We can estimate uncertainty based on left-out terms $\text{max}\left(\frac{Q^2}{\Lambda_b^2},\frac{Q^2}{\Lambda \Lambda_b},\frac{Q^2}{\Lambda^2}\right)$
@@ -820,7 +820,7 @@ $$
 This gives:
 
 $$
-(-1/2m \nabla^2)\phi_i(r) + \sum_{j=1}\int d^3r' \phi_j^*(r') V(r - r') \left(\phi_i(r)\phi_j(r') - \phi_i(r')\phi_j(r)\right) = E_i \phi_i(r)
+(-1/2m \nabla^2)\phi_i(r) + \sum_{j=1}\int d^3r' \phi_j^*(r') V(\abs{r - r'}) \left(\phi_i(r)\phi_j(r') - \phi_i(r')\phi_j(r)\right) = E_i \phi_i(r)
 $$
 
 which can be rewritten as:
