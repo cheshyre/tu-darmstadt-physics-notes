@@ -833,18 +833,189 @@ This is solved self-consistently.
 
 ### Fermi gas approximation
 
+The Fermi gas approximation is the Hartree-Fock approximation for uniform matter (large $N$, $V$, constant density).
+From this starting point, we can find corrections beyond Hartree-Fock via many-body perturbation theory, the so-called dilute gas expansion.
+
+For uniform matter, plane wave states solve the HF equations.
+So we define:
+
+$$
+\ket{\psi_{FG}} = \ket{\psi_{HF}} = \left( \prod_{\abs{k}\leq k_F}\prod_{m_s=+,-}a_{k,m_s}^{\dagger}\right)\ket{0}
+$$
+
+Note: here typically the total energy would just be the sum over the individual HF energies,
+but $E_{HF}$ actually includes corrections from underlying interactions.
+
+$$
+E_{HF} = \ev{T + V}{\psi_{HF}}
+$$
+
+$$
+E_{kin} = \ev{T}{\psi_{HF}} = N \frac{3}{5} \epsilon_{F}
+$$
+
+Now, we will compute the first-order (in $V$) correction to the energy due to the interaction.
+Here we will use the leading-order contact from our effective theory discussion, $V=c_0(\Lambda)$.
+I will typically just use $c_0$ for $c_0(\Lambda)$, but we work with the renormalized coefficient using the theta function regularization scheme.
+
+$$
+c_0(\Lambda) = \frac{4 \pi}{m} \frac{1}{\frac{1}{a} - \frac{2}{\pi}\Lambda}
+$$
+
+The first-order correction to the energy is:
+
+$$
+E_{int}^{(1)} = \ev{V}{\psi_{HF}} = \frac{1}{4V}\sum_{\abs{k_1}\leq k_F, m_{s1}}\sum_{\abs{k_2}\leq k_F,m_{s2}} c_0
+$$
+
+This follows from considering $V$ in second quantized form and doing all the contractions with the states.
+At the end we find:
+
+$$
+\frac{E_{int}^{(1)}}{N} = \frac{1}{4} c_0 n
+$$
+
+Working in the weakly-interacting limit (small $a$), we arrive at:
+
+$$
+\frac{E_{HF}^{(1)}}{N} = \frac{k_F^2}{2m} \left(\frac{3}{5} + \frac{2}{3 \pi} k_F a (1 + \frac{2}{\pi}\Lambda a)\right)
+$$
+
+We will see that this residual cutoff dependence is cancelled by second-order corrections to the energy in the dilute gas expansion.
+
 ### Dilute gas expansion
+
+We can write the full state as:
+
+$$
+\ket{\psi_{full}} = \ket{\psi_{FG}} + \sum_{1p1h}c_{1p1h}\ket{\psi_{1p1h}} + \sum_{2p2h}c_{2p2h}\ket{\psi_{2p2h}}
+$$
+
+Note here that 1 particle 1 hole excitations do not contribute to the ground state because the ground is at rest (no net total momentum), which is disturbed by a $1p1h$ excitation.
+This means the first correction beyond Hartree-Fock comes from considering 2 particle 2 hole intermediate states in 2nd order perturbation theory.
+
+**Fish diagram here**
+
+We define incoming and outgoing states with momenta:
+
+$$
+p/2 \pm k
+$$
+
+where $p$ is total momentum and $k$ is relative momentum, and intermediate states with momenta:
+
+$$
+p/2 \pm q
+$$
+
+since our potential conserves center of mass momentum.
+
+Second-order perturbation theory gives us:
+
+$$
+E_{int}^{(2)} = \frac{1}{4V} \sum_{k, p, m_{s1}, m_{s2}} \int_{0}^{\Lambda} \frac{d^3q}{(2\pi)^3} \frac{(1 - n_{p/2 + q})(1 - n_{p/2 - q})}{\epsilon_{p/2 + k} + \epsilon_{p/2 - k} - \epsilon_{p/2 + q} - \epsilon_{p/2 - q}} c_0^2 n_{p/2 - k} n_{p/2 + k}
+$$
+
+Here, the densities are Fermi-Dirac occupation numbers which at 0 temperature are just Heaviside step functions.
+These also regulate our integration space so we do not need to worry about any poles from the denominator.
+Using:
+
+$$
+(1 - n)(1 - n) - 1 + 1
+$$
+
+we can split the integral into a divergent part (the last $1$) and a part that is regulated by the densities (no cutoff dependence).
+We find the contribution for the divergent part is:
+
+\begin{align*}
+E_{int,+1}^{(2)} & = \frac{1}{4V} c_0^2 n^2 \left(\frac{-m\Lambda}{2 \pi^2}\right)
+& = \frac{n^2}{4V}\frac{4\pi a}{m}\frac{-2 \Lambda a}{\pi}
+\end{align*}
+
+which exactly cancels the cutoff dependence in the previous first-order interaction energy.
+The remaining term gives us:
+
+$$
+\frac{E_{int}^{(2)}}{N} = \frac{k_F^2}{2m}\frac{4}{35 \pi^2}\left(11 - 2 ln(2)\right)(k_F a)^2
+$$
 
 # Many-body methods for strongly interacting systems
 
+Right now, this only offers a brief overview of the concepts that go into modern many-body methods that go into strongly interacting systems.
+
 ## Many-body perturbation theory
+
+What we did for the uniform weakly interacting gas can also be done for closed shell nuclei and be extended from there.
 
 ## Quantum Monte Carlo
 
+Typical range: $A \leq 12$
+
+1. Start from trial state (perhaps Hartree-Fock)
+2. Evolve this state in imaginary time $\tau = i t$ using $e^{-H t}$
+3. Project onto $A$-body coordinate state final state and insert complete set of coordinate states
+4. Resulting $3A$-dimensional integral done via Monte Carlo integration
+5. Large $\tau$ projects out ground state
+
 ## No-core shell model
+
+Typical range: $A \leq 24$
+
+This large-scale diagonalization of $H$ proceeds like:
+
+1. Consider HO basis with Slater determinants up to $N_{max} \hbar \omega$ excitations
+2. Construct $A$-body Hamiltonian from 2- and 3-body forces
+3. Get lowest eigenstates and eigenvalues via Lanczos methods (take advantage of sparsity of Hamiltonian)
+
+Primary difficulty: even if naive lowest-energy configuration is a filled shell, due to the combinatorics of constructing excited Slater determinants the basis grows factorially in $N_{max}$.
+This situation grows even worse if you consider nuclei where there are degenerate lowest-energy configurations (partially filled shells).
+
+Other useful properties: variational in $\hbar \omega$. Convergence pattern in $N_{max}$ allows extrapolation (usually exponential).
 
 ## Coupled-cluster method
 
+Initial development in Bochum in 1960s, but failed due to extremely hard-core potentials available at the time.
+Since then it was developed and used extremely successfully in quantum chemistry.
+
+Typical range: closed shell $A$ and nearest neighbors via particle removal/attachment
+
+Primary advantage: polynomial computational scaling with system size
+
+Concept:
+
+Ansatz for many-body state:
+
+$$
+e^{S}\ket{\psi_{ref}}
+$$
+
+where the reference state is is a closed shell Hartree-Fock ground state or naive $0\hbar\omega$ HO state.
+
+$$
+S = \sum_{i=occ,a=unocc}t_i^a a_a^{\dagger} a_i + \sum_{ij, ab}t_{ij}^{ab} a_{a}^{\dagger} a_{b}^{\dagger} a_i a_j
+$$
+
+Since these 1p1h 2p2h operators are in the exponential, they each generate up to ApAh excitations.
+The amplitude $t_i^a$ etc are obtained by solving the coupled cluster equations.
+The state of the art today is complete singles and doubles and partial inclusion of triples.
+
+Features: Method is not variational.
+There is a truncation that has to be made in the single-particle basis: $e_{max} = (2n + l)_{max}$.
+
 ## In-medium similarity renormalization group
 
+Similar to coupled cluster in range and basic concept.
+
+Evolve $H(s)$ via the SRG, decoupling reference state from 1p1h, 2p2h states.
+
+$$
+H(s) = U(s) H(0) U^{\dagger}(s)
+$$
+
+Also polynomial scaling but not variational.
+
 ## Shell model method
+
+Basic concept: static core + valence space model space.
+
+Need to find an $H_{eff}$ that acts only in model space, but gives approximately correct lowest eigenvalues when diagonalized.
