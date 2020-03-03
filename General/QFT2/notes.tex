@@ -162,14 +162,106 @@ These two realizations come together to constrain the number of divergences we n
 to only a few 1PI diagrams.
 
 Some of these can be ruled out due to physical or symmetry reasons.
-For example, vacuum bubbles are always divergent, but can be ignore because they cancel in correlation functions.
+For example, vacuum bubbles are always divergent, but can be ignored because they cancel in correlation functions.
+
+We will now focus on QED, where we have 6 divergent 1PI amplitudes and the vacuum bubbles.
 1PI diagrams with only odd numbers of photon lines are 0 by charge conjugation.
 By the Ward identity, the 4-photon 1PI diagram must give 0 when a photon line is replaced by its momentum.
-This ultimately means that when expanding in momenta the first term is 0 and the non-vanishing term has $D=4$.
+This ultimately means that when expanding in momenta the first term is 0 and the non-vanishing term has $D=-4$.
 Thus, this diagram is not actually divergent.
 
-For QED, this means we have 3 relevant divergence 1PI amplitudes,
+For QED, this means we have 3 relevant divergent 1PI amplitudes,
 related to the electron self-energy, electron-photon vertex, and photon polarization.
+
+Consider the electron self-energy.
+The first naive contribution to this is a fermion line with a photon going off and returning to the line.
+Naively this amplitude should be linearly divergent ($\sim d^4k (1/k^2) (1/k)$).
+Writing a Taylor series for the amplitude yields the result that
+we have a linearly and a logarithmically divergent term and then a finite term.
+In fact, chiral symmetry requires that the linearly divergent term is actually only logarithmically divergent
+($\sim m \log(\Lambda)$).
+So we get two logarithmically divergent coefficients (one from $p \log(\Lambda)$, one from $m \log(\Lambda)$)
+from the electron self-energy.
+
+The electron-photon vertex requires two electron propagators and one photon propagator at the first loop order.
+Thus it is naively (and also actually) logarithmically divergent.
+The photon polarization has an electron loop at NLO, giving a naive estimate of quadratic divergence.
+Once again, the Ward identity constrains the form of the photon polarization,
+and a Taylor series shows that the logarithmically divergent term is the only divergent term that does not vanish.
+
+As a result we have 3 divergent 1PI amplitudes with 4 unique divergent terms.
+In our theory, we have 4 undetermined parameters,
+the field strength renormalization coefficients for the fermion and gauge fields,
+the fermion mass,
+and the coupling strength (or the fermion charge).
+So we have everything we need to manage the existing divergences and can proceed to do counter term renormalization.
+
+Our first goal is to re-express the Lagrangian initially given in terms of bare parameters
+using renormalized quantities.
+The field strength renormalization appears in the numerator of the propagator ($\sim Z/k^2$),
+which is a 2-point function,
+so one can absorb this by defining renormalized fields with a square root of this factor
+relative to the bare fields.
+We then define the renormalized mass and charge in terms of field strength renormalization coefficients
+and an additional renormalization coefficient to give a simple form of the Lagrangian.
+Then we take each coefficient and write it as $1 + \delta$,
+where the $1$ gives the original Lagrangian term but with renormalized quantities
+and the $\delta$ gives the corresponding counter term.
+
+These counter terms add Feynman rules to the theory.
+First, every counter term has terms of all orders (besides $\alpha^0$) in our perturbative expansion.
+Thus, at NLO we get regular loop diagrams and first order counter terms,
+and at N2LO we get regular second order loop diagrams,
+first order loop diagrams with a first order counter term,
+and second order counter terms.
+
+These Feynman rules can be used to perturbatively calculate certain quantities.
+Which quantities we should calculate first is fixed by our renormalization conditions,
+which specify how we fix the counter term coefficients based on certain observables.
+For QED, one option for renormalization conditions is:
+\begin{enumerate}
+  \item We require the electron mass from the dressed propagator to be the physical electron mass.
+    This means we want the pole of the propagator to be at $p=m$,
+    which constrains the constant term in the Taylor series of the electron self-energy $\Sigma$.
+  \item We require the residue of the electron propagator to be 1.
+    This constrains the derivative of $\Sigma$.
+  \item We require the residue of the electron propagator to be 1.
+    Note: these residue constraints correspond to particle number constraints.
+  \item We require the electron-photon vertex at zero momentum transfer to be given by the expected formula
+    $e \gamma^{\mu}$.
+\end{enumerate}
+
+A couple more remarks to some subtleties in the remaining calculation that won't be worked out here.
+The photon propagator is infrared (IR) divergent,
+meaning that parts of integrals over small momenta lead to divergences too.
+An approach to regularizing this is giving the photon a mass $\mu$.
+This regularization won't go away, and the only option is to directly calculate observables
+and see that results are independent of the regularizing mass.
+
+During the calculation, the integral for the electron self-energy eventually becomes
+\begin{equation}
+  \int d^4l_{\text{E}} \frac{1}{(l_{\text{E}}^2 + \Delta(x) - i \epsilon)^2}\,,
+\end{equation}
+where $\Delta$ depends on our Feynman parameter, the masses, and the momentum of the propagator
+and can become negative.
+When this happens, the self-energy will get an imaginary part,
+which corresponds exactly to the condition that the momentum $p$ is enough to produce an on-shell electron with mass $m$ and an on-shell photon with mass $\mu$.
+This is a general result and is discussed more in the spectral representation of the propagator.
+
+Finally, the regularization procedure is also something to consider carefully.
+In the case of these calculations, a simple momentum cutoff is not okay, because it would disrupt some symmetries
+(which ones?).
+The approach taken by Pauli and Villars is to subtract from the term above another term,
+replacing the mass $m$ with a cutoff $\Lambda$.
+This means the second term has the same high-momentum behavior, so it cancels the UV divergence,
+because $\Delta$ is
+\begin{equation}
+  \Delta = m^2 x + \mu^2 (1 - x) - p^2 x (1 - x)\,.
+\end{equation}
+Eventually, one can take $\Lambda \rightarrow \infty$, and this added term won't contribute.
+
+The evaluation of these NLO integrals is beyond these notes,
+but they are done in gory detail in Ref.~\cite{Peskin:1995ev}.
 
 \chapter{The renormalization group}
 
@@ -189,9 +281,72 @@ related to the electron self-energy, electron-photon vertex, and photon polariza
 
 \section{The running coupling of QED}
 
+A concrete evaluation of the dressed electron-photon vertex and the photon polarization
+with the renormalization conditions discussed gave
+\begin{equation}
+  e = (1 + \Pi_2(q^2=0))^{1/2}e_0\,,
+\end{equation}
+where $\Pi_2$ is the photon polarization (without the $g^{\mu\nu}q^2 - q^{\mu}q^{\nu}$ factor).
+One can extend this to non-zero momentum transfer
+\begin{equation}
+  e(q^2) = (1 + \Pi_2(q^2))^{1/2}e_0\,,
+\end{equation}
+so we have an effective charge for non-zero photon momenta.
+
+To see how our coupling $\alpha \sim e^2$ ``evolves'' as we go to higher momenta, we consider
+\begin{equation}
+  \frac{\alpha(q^2)}{\alpha(0)} = \frac{1 + \Pi_2(q^2)}{1 + \Pi_2(0)}\,.
+\end{equation}
+Focusing on large space-like photon momenta,
+we find qualitatively that the coupling grows (although only weakly).
+In fact there is a pole, called the Landau pole, at which the coupling diverges,
+but this is of limited physical significance
+because the perturbative approach we used to calculate the coupling
+breaks down as soon as the coupling is no longer small.
+
+The physical interpretation of this effect is that
+at low-momenta one probes the charge from long distances.
+The bare charge passively produces electron-positron pairs, polarizing the vacuum,
+and these form dipoles to screen the bare charge.
+So at high momenta, the photon ``sees'' more of the bare charge.
+This picture works well for QED, but other theories, such as QCD, also have running couplings,
+and an image of charge screening is not as obviously applicable there.
+
+
 \section{The Callan-Symanzik equation}
 
+The starting point of the scaling analysis is fixing a renormalization scale $M$.
+Setting reasonable renormalization conditions consistent with this scale allows one to compute renormalized Green's functions $G^{(n)}$.
+The underlying theory gives bare Green's functions, which are related to renormalized Green's functions by renormalization constants.
+So we could consider a different renormalization scale which gives different renormalized Green's functions,
+which are related to the same bare Green's functions.
+
+One way to do this is by shifting our scale $M$ and shifting our field strengths and couplings (or masses)
+such that the bare Green's functions are still the same.
+Then our renormalized Green's function is rescaled according to the necessary field rescaling.
+Thus, we can think of $G^{(n)}$ as being a function of the scale $M$ and the couplings $\lambda$,
+so the change in $G$ is given by
+\begin{equation}
+  n \delta \eta G^{(n)} = \frac{\partial}{\partial M}G^{(n)} \delta M + \frac{\partial}{\partial \lambda} G^{(n)} \delta \lambda \,.
+\end{equation}
+
+This gives the Callan-Symanzik equation
+\begin{equation}
+  \left[M \frac{\partial}{\partial M} + \beta(\lambda) \frac{\partial}{\partial \lambda} + n \gamma(\lambda)\right]G^{(n)}(\{x_i\}; M, \lambda) = 0\,.
+\end{equation}
+$\beta$ and $\gamma$ are universal functions, the same for every $n$, independent of $M$,
+relate to how the field strength and coupling constant must change if the renormalization scale is changed.
+Note: $\gamma$ is called the anomalous dimension, because it sets how far the scaling of the Green's function is
+from canonical scaling.
+
 \section{The beta function}
+
+The beta function is given by
+\begin{equation}
+  \beta = M \frac{\partial \lambda}{\partial M}\,.
+\end{equation}
+It has a trivial fixed point at 0 coupling and its value for small couplings says a lot about the momentum behavior of the theory.
+At fixed points, the coupling becomes scale independent.
 
 \chapter{The path integral}
 
@@ -208,7 +363,7 @@ related to the electron self-energy, electron-photon vertex, and photon polariza
   \item The central object is the generating functional,
     which couples classical sources to fields of the theory
   \item Some difficulties arise when dealing with the quantization of fermions,
-    which require the introduction of Grassman fields to ensure anti-commuting behavior
+    which require the introduction of Grassmann fields to ensure anti-commuting behavior
   \item The path integral also allows for the easy identification of the propagator,
     but for massless gauge fields this is spoiled by the fact that the inverse propagtor is singular
   \item Fixing a gauge makes the inverse propagator invertible (recall previously we worked in the Feynman gauge)
@@ -225,13 +380,154 @@ related to the electron self-energy, electron-photon vertex, and photon polariza
 
 \subsection{Path integral quantization}
 
+The derivation of the path integral proceeds in analogy to the derivation for the case
+with a classical point particle.
+Time is discretized to handle the propagation as before.
+Additionally, space is discretized as each point in space of the field is treated as an independent degree of freedom.
+The identity at each time point is inserted to reduce the canonical momentum operators and the field operators
+to momentum fields and regular fields.
+A subtle point to note is that in this case the canonical momentum is not simply the time derivative of the field,
+thus the Gaussian integral to recover the Lagrangian requires completing the square.
+This introduces an overall normalization, which ultimately will cancel.
+
+Thus the path integral is given by
+\begin{equation}
+  \langle \Omega \vert T[\Phi_H(x_1) \Phi_H(x_2)] \vert \Omega \rangle
+  = \frac{\int \mathcal{D}\Phi \Phi(x_1) \Phi(x_2) \exp(i S[\Phi])}{\int \mathcal{D}\Phi \exp(i S[\Phi])}\,.
+\end{equation}
+
+For something like the $\Phi^4$ theory,
+one can start by considering the free Klein-Gordon Lagrangian.
+In this case, one directly recovers the typical disconnected results for $n$-point functions
+in terms of the propagator $D_F(x-y)$.
+A perturbative expansion of the interaction term in the path integral shows
+that one recovers at NLO the disconnected diagrams with 1-vertex vacuum bubbles
+and then appropriate 1-vertex connected diagrams.
+The denominator in the path integral above cancels all of the disconnected diagrams and vacuum bubbles
+as was previously argued.
+Thus, we have completely recovered the previous results for correlation functions in the path integral.
+
+A couple comments:
+\begin{itemize}
+  \item This object essentially unites all correlation functions.
+    The approach is analogous for other correlation functions.
+  \item Exact evaluation of the path integral corresponds to a calculation of the correlation function
+    amplitude to all orders.
+  \item This approach works also for non-perturbative problems.
+  \item By modifying the action, one can impose additional constraints on the system,
+    for example the presence of an external field.
+    One simply needs to specify how it couples to the relevant fields.
+  \item The path integral only contains classical fields, not operators.
+    All quantum fluctuations are captured in the functional integral,
+    with configurations away from the classical path weighted differently by the action.
+\end{itemize}
+
 \subsection{Generating functional}
+
+To simplfy the path integral even further, one can define a generating functional.
+This uses some simple functional differential calculus tools to contain all correlation functions in one object.
+As a reminder, some useful properties of functional derivatives are:
+\begin{align}
+  \frac{\delta f(y)}{\delta f(x)} & = \delta^4(x - y)\,, \\
+  \frac{\delta}{\delta f(x)} \int d^4y f(y) g(y) &= g(x)\,, \\
+  \frac{\delta}{\delta f(x)} \exp(i \int d^4y f(y) g(y)) &= i g(x) \exp(i \int d^4y f(y) g(y))\,, \\
+  \frac{\delta}{\delta f(x)} \int d^4y (\partial_{\mu} f(y)) v^{\mu}(y) & = - \partial_{\mu} v^{\mu}(x)\,,
+\end{align}
+where we used integration by parts with vanishing surface terms in the last equality.
+
+For our scalar case, the generating functional simply extends the Lagrangian
+by a local term coupling our field $\Phi$ to a classical source $J$:
+\begin{equation}
+  Z[J] = \int \mathcal{D}\Phi \exp(i \int d^4x (\mathcal{L}[\Phi] + J(x) \Phi(x)))\,.
+\end{equation}
+We immediately recover the denominator of our path integral by evaluating $Z[J=0]$.
+Additionally, we get the numerator for any $n$-point function
+simply by taking functional derivatives with respect to $J$ at appropriate points
+and setting $J=0$ at the end as well.
 
 \section{Application to QED}
 
+Adapting the path integral formalism to QED comes with some complications.
+The first is that fermions, by the spin-statistics theorem, obey anti-commutation relations,
+which means in the path integral we need anti-commuting scalar fields.
+The second is that we now have a gauge field
+and a Lagrangian that at least initially isn't fixed to a specific gauge.
+This means we will have some difficulty getting the propagator our of the path integral,
+and eventually we will enforce a criterion that fixes a specific gauge.
+
 \subsection{Quantizing fermions}
 
+Grassmann numbers are anti-commuting scalars.
+Let $\theta$ and $\eta$ be Grassmann numbers.
+Then,
+\begin{align}
+  \theta \eta & = - \eta \theta\,, \\
+  \theta^2 & = 0\,, \\
+  \frac{d}{d\theta}\theta\eta & = \eta\,,\\
+  \frac{d}{d\eta}\theta\eta & = -\theta\,.\\
+\end{align}
+One consequence of these properties is that the Taylor series of a function of a Grassmann variable
+only has a constant and a linear term.
+Additionally, the definition of integration changes such that integrating is the same as differentiating.
+
 \subsection{Quantizing the electromagnetic gauge field}
+
+To simplify the discussion, we will focus on a pure gauge Lagrangian taken from QED,
+\begin{equation}
+  \mathcal{L}_0 = -\frac{1}{4} F_{\mu\nu}F^{\mu\nu}\,.
+\end{equation}
+By integrating by parts, we can get the action to a form,
+\begin{equation}
+  S[A] = \frac{1}{2}\int d^4 x (A_{\mu} (\partial_{\sigma} \partial^{\sigma} g^{\mu\nu} - \partial_{\mu} \partial^{\nu}) A_{\nu})\,.
+\end{equation}
+The gauge field propagator is the Green's function of the operator between the fields above.
+In momentum space, this amounts to solving
+\begin{equation}
+  (-k^2 g_{\mu\nu} + k_{\mu} k_{\nu}) D_{F}^{\nu\rho}(k) = i \delta_{\mu}^{\rho}\,,
+\end{equation}
+which is not possible since $-k^2 g_{\mu\nu} + k_{\mu} k_{\nu}$ is singular.
+
+The problem lies in the fact that our current functional integral integrates over all gauge field configurations,
+even those that are gauge equivalent.
+The Faddeev-Popov trick is to introduce a functional integral over gauge fields that gives 1,
+inserting this into the partition function.
+This is
+\begin{equation}
+  1 = \det\left(\frac{\delta G(A^{\alpha})}{\delta \alpha}\right) \int \mathcal{D}\alpha \delta [G(A^{\alpha})]\,,
+\end{equation}
+where the functional determinant is independent of $A$ and $\alpha$, so we can pull it out and ignore it.
+
+We get our partition function
+\begin{equation}
+  Z = \int \mathcal{D}\alpha \int \mathcal{D}A \exp(i S[A]) \delta [G(A^{\alpha})]\,,
+\end{equation}
+ignoring the determinant.
+By gauge invariance, the action is unchanged ($S[A] = S[A^{\alpha}]$),
+and because gauge transformed field is just shifted by an $A$-independent term,
+the integration metric is also unchanged.
+This gives
+\begin{equation}
+  Z = \int \mathcal{D}\alpha \int \mathcal{D}A \exp(i S[A]) \delta [G(A)]\,.
+\end{equation}
+The $\alpha$ integral is now also only an overall normalization since, the integrand is independent of $\alpha$.
+
+Now, what remains is to:
+\begin{enumerate}
+  \item Specify a gauge fixing function, for example $G(A) = \partial^{\mu} A_{\mu}(x) - \omega(x)$.
+  \item Integrate over $\omega$ with a Gaussian weight and a normalization such that the integral is an identity.
+    The normalization will cancel when we consider a full path integral.
+  \item Evaluate $\omega$ integral, bringing a gauge fixing term into the action.
+\end{enumerate}
+For the full path integral,
+this only works if the operators in the correlation function of interest are gauge invariant.
+
+The resulting inverse propagator is now $-k^2 g_{\mu\nu} + (1 - \frac{1}{\xi})k_{\mu} k_{\nu}$,
+where $\xi$ is the width of our Gaussian weighting function.
+This lifts the singularity,
+giving the momentum-space propagator
+\begin{equation}
+  D_{F}^{\mu\nu}(k) = \frac{-i}{k^2 + i \epsilon}\left(g^{\mu\nu} - (1 - \xi) \frac{k^{\mu}k^{\nu}}{k^2}\right)\,.
+\end{equation}
 
 \section{Symmetries and Ward identities}
 
@@ -455,8 +751,8 @@ However, the final term in $G_{\mu\nu}$ generates 3-gluon ($\mathcal{O}(g)$) and
 
 \backmatter{}
 
-% \bibliographystyle{alpha} % use your favorite BIBTeX style
-% \nocite{*} % To display all refs, even uncited refs (useful when editting)
-% \bibliography{notes/notesbib}
+\bibliographystyle{alpha} % use your favorite BIBTeX style
+\nocite{*} % To display all refs, even uncited refs (useful when editting)
+\bibliography{notesbib}
 
 \end{document}
