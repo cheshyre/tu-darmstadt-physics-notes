@@ -98,6 +98,17 @@ Matthias \textsc{Heinz}\\ % Your name
 
 % abstract
 \chapter{Abstract}
+After an introductory course in quantum field theory
+that introduces canonical quantization,
+tree-level Feynman diagrams and rules,
+and the procedures for calculating processes with these,
+it is time to look at advanced topics in quantum field theories.
+In these notes, we consider:
+going beyond tree-level in calculations and the general need for renormalization;
+path integral quantization of quantum field theories and various associated methods;
+the modern approach of ``gauging'' a free theory to get an interacting one;
+and, some preliminary discussions regarding non-abelian gauge theories.
+
 These notes grew out of the Quantum Field Theory 2 course
 taught by Prof.~Bubablla at the TU Darmstadt.
 By writing these notes, I hope to better understand the material.
@@ -114,9 +125,9 @@ By writing these notes, I hope to better understand the material.
 
 \cleardoublepage\tableofcontents
 
-\cleardoublepage\listoftables
+% \cleardoublepage\listoftables
 
-\cleardoublepage\listoffigures
+% \cleardoublepage\listoffigures
 
 % Uncomment for acronyms
 % use acronym in text with \ac{label} or \acl{label}
@@ -225,7 +236,7 @@ For QED, one option for renormalization conditions is:
     which constrains the constant term in the Taylor series of the electron self-energy $\Sigma$.
   \item We require the residue of the electron propagator to be 1.
     This constrains the derivative of $\Sigma$.
-  \item We require the residue of the electron propagator to be 1.
+  \item We require the residue of the photon propagator to be 1.
     Note: these residue constraints correspond to particle number constraints.
   \item We require the electron-photon vertex at zero momentum transfer to be given by the expected formula
     $e \gamma^{\mu}$.
@@ -249,8 +260,10 @@ which corresponds exactly to the condition that the momentum $p$ is enough to pr
 This is a general result and is discussed more in the spectral representation of the propagator.
 
 Finally, the regularization procedure is also something to consider carefully.
-In the case of these calculations, a simple momentum cutoff is not okay, because it would disrupt some symmetries
-(which ones?).
+In the case of these calculations, a simple momentum cutoff is not okay, because it would disrupt some symmetries.
+What this means concretely is that Ward identities,
+which can be derived based on symmetries alone,
+may no longer be true after improper regularization.
 The approach taken by Pauli and Villars is to subtract from the term above another term,
 replacing the mass $m$ with a cutoff $\Lambda$.
 This means the second term has the same high-momentum behavior, so it cancels the UV divergence,
@@ -276,7 +289,8 @@ but they are done in gory detail in Ref.~\cite{Peskin:1995ev}.
     away from our renormalization point as an effective coupling
   \item A similar result can be arrived at by doing a sophisticated analysis of scaling in the theory
   \item Some general results that can be obtained by this analysis are the $\beta$ function for the coupling
-    and the $\gamma$ functions, which predict anomalous scaling behavior in the theory
+    and the $\gamma$ function,
+    which predict scale dependence and anomalous scaling behavior in the theory
 \end{itemize}
 
 \section{The running coupling of QED}
@@ -324,7 +338,7 @@ which are related to the same bare Green's functions.
 One way to do this is by shifting our scale $M$ and shifting our field strengths and couplings (or masses)
 such that the bare Green's functions are still the same.
 Then our renormalized Green's function is rescaled according to the necessary field rescaling.
-Thus, we can think of $G^{(n)}$ as being a function of the scale $M$ and the couplings $\lambda$,
+Thus, we can think of $G^{(n)}$ as being a function of the scale $M$ and the coupling(s) $\lambda$,
 so the change in $G$ is given by
 \begin{equation}
   n \delta \eta G^{(n)} = \frac{\partial}{\partial M}G^{(n)} \delta M + \frac{\partial}{\partial \lambda} G^{(n)} \delta \lambda \,.
@@ -335,17 +349,22 @@ This gives the Callan-Symanzik equation
   \left[M \frac{\partial}{\partial M} + \beta(\lambda) \frac{\partial}{\partial \lambda} + n \gamma(\lambda)\right]G^{(n)}(\{x_i\}; M, \lambda) = 0\,.
 \end{equation}
 $\beta$ and $\gamma$ are universal functions, the same for every $n$, independent of $M$,
-relate to how the field strength and coupling constant must change if the renormalization scale is changed.
+related to how the field strength and coupling constant must change if the renormalization scale is changed.
 Note: $\gamma$ is called the anomalous dimension, because it sets how far the scaling of the Green's function is
 from canonical scaling.
 
-\section{The beta function}
+\section{The $\beta$ function}
 
 The beta function is given by
 \begin{equation}
-  \beta = M \frac{\partial \lambda}{\partial M}\,.
+  \beta = M \frac{\partial \lambda}{\partial M}\,,
 \end{equation}
-It has a trivial fixed point at 0 coupling and its value for small couplings says a lot about the momentum behavior of the theory.
+or alternatively
+\begin{equation}
+  \beta(\lambda(t)) = t \frac{\partial \lambda(t)}{\partial t}\,.
+\end{equation}
+It has a trivial fixed point at 0 coupling
+and its value for small couplings says a lot about the momentum dependence of the theory.
 At fixed points, the coupling becomes scale independent.
 
 \chapter{The path integral}
@@ -365,7 +384,7 @@ At fixed points, the coupling becomes scale independent.
   \item Some difficulties arise when dealing with the quantization of fermions,
     which require the introduction of Grassmann fields to ensure anti-commuting behavior
   \item The path integral also allows for the easy identification of the propagator,
-    but for massless gauge fields this is spoiled by the fact that the inverse propagtor is singular
+    but for massless gauge fields this is spoiled by the fact that the inverse propagator is singular
   \item Fixing a gauge makes the inverse propagator invertible (recall previously we worked in the Feynman gauge)
   \item More generally, the Faddeev-Popov method allows for the fixing of a gauge
     for the functional integral over gauge fields,
@@ -470,6 +489,12 @@ One consequence of these properties is that the Taylor series of a function of a
 only has a constant and a linear term.
 Additionally, the definition of integration changes such that integrating is the same as differentiating.
 
+Eventually, we use Grassmann fields
+\begin{equation}
+  \Psi(x) = \sum_i \theta_i \phi_i(x)\,,
+\end{equation}
+with basis functions $\phi_i(x)$.
+
 \subsection{Quantizing the electromagnetic gauge field}
 
 To simplify the discussion, we will focus on a pure gauge Lagrangian taken from QED,
@@ -503,13 +528,13 @@ We get our partition function
 \end{equation}
 ignoring the determinant.
 By gauge invariance, the action is unchanged ($S[A] = S[A^{\alpha}]$),
-and because gauge transformed field is just shifted by an $A$-independent term,
+and, because gauge transformed field is just shifted by an $A$-independent term,
 the integration metric is also unchanged.
 This gives
 \begin{equation}
   Z = \int \mathcal{D}\alpha \int \mathcal{D}A \exp(i S[A]) \delta [G(A)]\,.
 \end{equation}
-The $\alpha$ integral is now also only an overall normalization since, the integrand is independent of $\alpha$.
+The $\alpha$ integral is now also only an overall normalization, since the integrand is independent of $\alpha$.
 
 Now, what remains is to:
 \begin{enumerate}
@@ -548,7 +573,7 @@ giving the momentum-space propagator
     that is not realized in the ground state
   \item A simple classical example is the sombrero potential,
     which has a 2-dimensional rotational symmetry that the degenerate ground states break
-  \item This has the consequence that for the broken symmetries
+  \item This has the consequence that for the broken continuous symmetries
     there are 0-energy excitations from the ground state into another ground state,
     which in a quantum field theory view would correspond to massless particles
   \item One such theory is the linear $\sigma$ model,
@@ -564,7 +589,7 @@ giving the momentum-space propagator
 The Lagrangian for the linear $\sigma$ model in Eq.~\ref{eq:linear_sigma_model} has a couple of interesting/unusual properties:
 \begin{enumerate}
   \item the ``mass term'' has the wrong sign,
-  \item and the Lagrangian is invariant underr $N$-dimensional rotations ($\text{O}(N)$).
+  \item and the Lagrangian is invariant under $N$-dimensional rotations ($\text{O}(N)$).
 \end{enumerate}
 Using $\mathcal{H} = \pi^2 - \mathcal{L}$, we can identify the classical potential with
 \begin{equation}
@@ -582,7 +607,7 @@ The consequences of this are made clear when we shift our fields to work around 
   \Phi^i(x) & = \pi^i(x)\,,  &i \in \left\{1,\ldots,N-1\right\}\\
   \Phi^N(x) &=  \nu + \sigma(x)\,. &
 \end{align}
-Reexpressing the Lagrangian in terms of these shifted fields shows that only the $\sigma$ mode has a ``mass'' term,
+Re-expressing the Lagrangian in terms of these shifted fields shows that only the $\sigma$ mode has a ``mass'' term,
 and the $N-1$ $\pi$ fields correspond to 0-energy excitations of the ground state.
 
 This is one realization of the Goldstone theorem:
@@ -600,7 +625,7 @@ The classical proof of this can be obtained schematically as follows:
     (which leaves the potential unchanged)
     and evaluate at the minimum,
     we find ultimately that the product of the mass matrix and the vector giving the shift of the fields must be 0.
-  \item In the case that the rotation is around an axis not equal to $\Phi_0^i$, this is a non-trivial condtion,
+  \item In the case that the rotation is around an axis not equal to $\Phi_0^i$, this is a non-trivial condition,
     which means that the infinitesimal shift vector is an eigenvector of the mass matrix with eigenvalue 0.
 \end{enumerate}
 
@@ -643,7 +668,7 @@ The approach taken is as follows:
     and applies the transformation at another spacetime point $y$.
     Applying this to our $\epsilon$-expanded derivative, we define a covariant derivative,
     which transforms consistently.
-  \item Expanding everything in powers of $\epsilon$ give a normal derivative term
+  \item Expanding everything in powers of $\epsilon$ gives a normal derivative term
     and a non-derivative term proportional to the derivative of $U$ at $x$.
     This can be defined into a new field whose transformation behavior is given by the transformation behavior of $U$.
   \item This gives us covariant derivative of the field, which transforms just like the field itself.
@@ -706,6 +731,14 @@ Thus the Lorentz invariant term we can include in our gauged QCD Lagrangian is $
 The first 2 terms in the field strength tensor gives us a kinetic term for the gluons.
 However, the final term in $G_{\mu\nu}$ generates 3-gluon ($\mathcal{O}(g)$) and 4-gluon terms ($\mathcal{O}(g^2)$), due to its quadratic appearance.
 
+There is also a term that goes like
+\begin{equation}
+  \varepsilon^{\mu\nu\rho\sigma}G_{\mu\nu}^a G_{\rho\sigma}^a \,,
+\end{equation}
+known as the $\theta$ term.
+This term exists in principle,
+but experimental evidence suggests it is very small.
+
 
 \subsection{Quantization}
 
@@ -744,6 +777,70 @@ However, the final term in $G_{\mu\nu}$ generates 3-gluon ($\mathcal{O}(g)$) and
   \begin{equation}\label{eq:qed_cov_deriv}
     D_{\mu} = \partial_{\mu} + i e A_{\mu}\,.
   \end{equation}
+  The gauge field transforms like
+  \begin{equation}
+    A_{\mu}(x) \rightarrow A_{\mu}(x) + \frac{1}{e} (\partial_{\mu} \alpha(x))\,.
+  \end{equation}
+
+  ``Free'' QCD:
+  \begin{equation}
+    \mathcal{L} = \sum_f \bar{\Psi}_f (i\slashed{\partial} - m_f) \Psi_f \,.
+  \end{equation}
+
+  QCD:
+  \begin{equation}
+    \mathcal{L} = \sum_f \bar{\Psi}_f (i\slashed{D} - m_f) \Psi_f - \frac{1}{4} G_{\mu\nu}^a G^{\mu\nu a}
+    + \theta \varepsilon^{\mu\nu\rho\sigma} G_{\mu\nu}^a G_{\rho\sigma}^a \,,
+  \end{equation}
+  with
+  \begin{equation}
+    D_{\mu} = \partial_{\mu} - i g A_{\mu}^a (x) T^a\,,
+  \end{equation}
+  and
+  \begin{equation}
+    G_{\mu\nu}^a = \partial_{\mu} A_{\nu}^a - \partial_{\nu} A_{\mu}^a  + g f^{abc} A_{\mu}^b A_{\nu}^c \,.
+  \end{equation}
+  The gluon gauge field transforms like
+  \begin{equation}
+    A_{\mu}^a(x) \rightarrow A_{\mu}^a(x) + \frac{1}{g} (\partial_{\mu} \theta^a(x)) + f^{abc} A^b_{\mu}(x) \theta^c(x)\,.
+  \end{equation}
+  It is also possible to add electromagnetic interactions to QCD by extending the covariant derivative
+  by the same term as for QED and including the EM field strength tensor term.
+
+  \section{Feynman rules}
+
+  \subsection{$\Phi^4$}
+
+  \begin{align}
+    \text{propagator} &= \frac{i}{p^2 - m^2 + i \varepsilon}\,, \\
+    \text{vertex} &= -i \lambda\,.
+  \end{align}
+
+  \subsection{QED (with counter terms)}
+  \begin{align}
+    \text{fermion propagator} &= \frac{i}{\slashed{p} - m + i \varepsilon}\,,
+                              & \text{counter term} &= i (\slashed{p}\delta_2 - \delta_m)\,, \\
+    \text{photon propagator} &= \frac{-i g^{\mu\nu}}{q^2 + i \varepsilon}\,,
+                              & \text{counter term} &= - i (g^{\mu\nu}q^2 - q^{\mu}q^{\nu}) \delta_3\,, \\
+    \text{vertex} &= -i e \gamma^{\mu}\,, & \text{counter term} &=-i e \gamma^{\mu} \delta_1\,.
+  \end{align}
+
+  \subsection{Linear $\sigma$ model}
+
+  \subsection{QCD}
+
+  \begin{align}
+    \text{gluon-fermion vertex} &= i g \gamma^{\mu} T^a\,, \\
+    \text{3 gluon vertex} &= g f^{abc}(\ldots)\,, \\
+    \text{4 gluon vertex} &= i g^2 (\text{terms like} \sim f^{abe}f^{cde} \ldots)\,.
+  \end{align}
+  The fermion and gauge field propagators are roughly the same as in QED.
+  Because the Faddeev-Popov method for QCD does not easily get rid of the determinant in the inserted identity
+  there are also Faddeev-Popov ghost fields with some Feynman rules.
+  These only appear as propagators (not as external lines).
+
+
+
 
   \chapter{The spectral representation}
 
